@@ -1,0 +1,136 @@
+\RequirePackage{lastpage}
+\RequirePackage{pgfpages}
+
+ \pgfpagesdeclarelayout{3 on 1 with notes} {
+%    \edef\pgfpageoptionheight{\the\paperheight}
+%    \edef\pgfpageoptionwidth{\the\paperwidth}
+    \edef\pgfpageoptionheight{11in}
+    \edef\pgfpageoptionwidth{8.5in}
+    \edef\pgfpageoptionborder{0pt}
+    \newcounter{physicalpage}
+ }
+ {
+    \pgfpagesphysicalpageoptions
+    {%
+      logical pages=10,%
+      physical height=\pgfpageoptionheight,%
+      physical width=\pgfpageoptionwidth,%
+%      last logical shipout=3%
+      last logical shipout=3%
+    }
+    
+        \pgfpageslogicalpageoptions{1}
+        {%
+                scale=.70,border code={\stepcounter{physicalpage}\pgfstroke},
+                center=\pgfpoint{.265\pgfphysicalwidth}{.80\pgfphysicalheight}%
+        }%
+        \pgfpageslogicalpageoptions{2}
+        {%
+                scale=.70,border code={\pgfstroke},
+                center=\pgfpoint{.265\pgfphysicalwidth}{.50\pgfphysicalheight}%
+        }%
+        \pgfpageslogicalpageoptions{3}
+        {%
+                scale=.70,border code={\pgfstroke},
+                center=\pgfpoint{.265\pgfphysicalwidth}{.20\pgfphysicalheight}%
+        }%
+
+	
+	\pgfpageslogicalpageoptions{4}
+    {%
+      border shrink=\pgfpageoptionborder,%
+      scale=.70,
+      center=\pgfpoint{.735\pgfphysicalwidth}{.80\pgfphysicalheight},%
+      copy from=4
+    }%
+    \pgfpageslogicalpageoptions{5}
+    {%
+      border shrink=\pgfpageoptionborder,%
+      scale=.70,
+      center=\pgfpoint{.735\pgfphysicalwidth}{.50\pgfphysicalheight},%
+      copy from=5
+    }%
+    \pgfpageslogicalpageoptions{6}
+    {%
+      border shrink=\pgfpageoptionborder,%
+      scale=0.7,
+      center=\pgfpoint{.735\pgfphysicalwidth}{.20\pgfphysicalheight},%
+      copy from=6
+    }%
+    
+    \pgfpageslogicalpageoptions{7}
+    % page footer
+    {
+      center=\pgfpoint{\pgfphysicalwidth-0.5in}{0.5in},
+      original width=3em,
+      original height=1em,
+      copy from=7,
+      border code={
+        \pgfusepath{discard}
+        \pgftext[at=\pgfpoint{0.5\wd0}{0.5\ht0}]{\thephysicalpage}}
+    }
+    
+    \pgfpageslogicalpageoptions{8}
+    % document title in center of page header
+    {
+      original height=1em,
+      original width=7.5in,
+      center=\pgfpoint{0.5\pgfphysicalwidth}{\pgfphysicalheight-0.5in},
+      border code={\pgfusepath{discard}},
+      copy from=8    
+    }
+    
+    \pgfpageslogicalpageoptions{9}
+    % author on left of page header
+    {
+      original height=1em,
+      original width=3in,
+      center=\pgfpoint{1.5in}{\pgfphysicalheight-0.5in},
+      border code={\pgfusepath{discard}},
+      copy from=9
+    }
+    
+    \pgfpageslogicalpageoptions{10}
+    % date on right of page header
+    {
+      original height=1em,
+      original width=3in,
+      center=\pgfpoint{7in}{\pgfphysicalheight-0.5in},
+      border code={\pgfusepath{discard}},
+      copy from=10
+    }
+    
+    
+	\AtBeginDocument{
+      \newbox\notesbox
+      \setbox\notesbox=\vbox{
+        \hsize=\paperwidth
+        \vskip-1in\hskip-1in\vbox{
+          \vskip1cm
+        Notes\vskip1cm
+        \hrule width\paperwidth\vskip1cm
+        \hrule width\paperwidth\vskip1cm
+        \hrule width\paperwidth\vskip1cm
+        \hrule width\paperwidth\vskip1cm
+        \hrule width\paperwidth\vskip1cm
+        \hrule width\paperwidth\vskip1cm
+        \hrule width\paperwidth\vskip1cm
+        \hrule width\paperwidth}
+      }
+      \newbox\cheadbox
+      \setbox\cheadbox=\vbox{%\hsize=6.5in% size wanted minus one inch?
+        \vskip-1in\hskip-1in\let\\:
+        \hbox to \hsize{\hfill\beamer@shorttitle}}
+      \newbox\lheadbox
+      \setbox\lheadbox=\vbox{\vskip-1in\hskip-0.5in\beamer@shortauthor}
+      \newbox\rheadbox
+      \setbox\rheadbox=\vbox{\vskip-1in\hskip-1in\hbox to 2.5in{\hfill\beamer@shortdate}}
+      \pgfpagesshipoutlogicalpage{4}\copy\notesbox
+      \pgfpagesshipoutlogicalpage{5}\copy\notesbox
+      \pgfpagesshipoutlogicalpage{6}\copy\notesbox
+      \pgfpagesshipoutlogicalpage{7}\vbox{}
+      \pgfpagesshipoutlogicalpage{8}\copy\cheadbox
+      \pgfpagesshipoutlogicalpage{9}\copy\lheadbox
+      \pgfpagesshipoutlogicalpage{10}\copy\rheadbox
+    }
+ }
