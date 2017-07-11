@@ -1,0 +1,75 @@
+\ProvidesPackage{pgfpageslayoutppt3}
+\RequirePackage{pgfpages}
+
+\newcounter{physicalpage}
+
+
+%  \def\pptiiilpopts{resized width=3.5in,resized height=2.625in,}
+  \newtoks\pptiiilpopts
+  \pptiiilpopts={resized width=3.5in,resized height=2.625in,}
+
+\pgfpagesdeclarelayout{ppt3} {
+  \def\pgfpagesoptionborder{0pt}
+  \pgfrememberpicturepositiononpagetrue
+}{
+  \pgfpagesphysicalpageoptions {%
+    logical pages=3,
+    physical height=11in,
+    physical width=8.5in
+  }
+  \pgfpageslogicalpageoptions{1} {%
+    center=\pgfpoint{.25\pgfphysicalwidth}{.80\pgfphysicalheight},%
+    resized width=3.5in,resized height=2.625in,
+    %\the\pptiiilpopts,
+    border code={
+      \pgfusepath{stroke}
+      \pgftransformxshift{\wd0}
+      \pgftransformxshift{1in}
+      \foreach \i in {1,...,8} {
+        \pgfmoveto{\pgfpoint{0cm}{\i cm}}
+        \pgflineto{\pgfpointadd{\pgfpoint{\wd0}{\i cm}}{\pgfpoint{-1cm}{0 cm}}}
+        \pgfusepath{stroke}
+      }
+    }
+  }
+  \pgfpageslogicalpageoptions{2} {%
+    center=\pgfpoint{.25\pgfphysicalwidth}{.50\pgfphysicalheight},%
+    resized width=3.5in,
+    resized height=2.625in,
+    border code={
+      \pgfusepath{stroke}
+      \pgftransformxshift{\wd0}
+      \pgftransformxshift{1in}
+      \foreach \i in {1,...,8} {
+        \pgfmoveto{\pgfpoint{0cm}{\i cm}}
+        \pgflineto{\pgfpointadd{\pgfpoint{\wd0}{\i cm}}{\pgfpoint{-1cm}{0 cm}}}
+        \pgfusepath{stroke}
+      }
+    }
+  }
+  \pgfpageslogicalpageoptions{3}{%
+    center=\pgfpoint{.25\pgfphysicalwidth}{.20\pgfphysicalheight},%
+    resized width=3.5in,
+    resized height=2.625in,
+    border code={
+      \pgfusepath{stroke}
+      \pgftransformxshift{\wd0}
+      \pgftransformxshift{1in}
+      \foreach \i in {1,...,8} {
+        \pgfmoveto{\pgfpoint{0cm}{\i cm}}
+        \pgflineto{\pgfpointadd{\pgfpoint{\wd0}{\i cm}}{\pgfpoint{-1cm}{0 cm}}}
+        \pgfusepath{stroke}
+      }
+      % Now draw physical page header and footer
+      \stepcounter{physicalpage}
+      \pgftransformshift{\pgfpoint{\wd0}{-0.5in}}
+      % this is an attempt to get the current physical page.  Not working.
+      % `\pgfpictureid' is undefined?
+      % \pgftransformshift{\pgfpointanchor{current page}{south west}} 
+      % \pgftransformshift{\pgfpoint{1cm}{1cm}} 
+      \pgftext[center] {\thephysicalpage}
+    }
+  }
+}
+
+\pgfpagesuselayout{ppt3}
